@@ -1,19 +1,30 @@
+// 127.0.0.1:3000/api/v1/tours
+
+const fs = require('fs');
 const express = require('express');
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res
-    .status(200)
-    .json({ message: 'Hello from the server side', app: 'Natours' });
-  //send can be used to send data
-  //json allows to send data in json object, automatically set the content type to application/json
+app.use(express.json()); //express.json() is a middleware(function that can modify the incoming request data, it stands b/w request and response)
+
+const tours = JSON.parse(
+  fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
+);
+
+app.get('/api/v1/tours', (req, res) => {
+  res.status(200).json({
+    status: 'success',
+    result: tours.length,
+    data: {
+      tours,
+    },
+  });
 });
 
-app.post('/', (req, res) => {
-  res.send('You can post to this endpoint...');
+app.post('/api/v1/tours', (req, res) => {
+  console.log(req.body);
+  res.send('Done');
 });
-
 const port = 3000;
 
 app.listen(port, () => {
