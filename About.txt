@@ -1,0 +1,3 @@
+MiddleWare: It can manipulate the req or res object or really execute any other code that we like, its all about receiving request and sending response. even route definition
+
+Request-Response Cycle
