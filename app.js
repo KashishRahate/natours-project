@@ -6,11 +6,14 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
 const app = express();
-
+console.log(process.env.NODE_ENV);
 // 1) MiddleWares
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 app.use(express.json()); //express.json() is a middleware(function that can modify the incoming request data, it stands b/w request and response)
+app.use(express.static(`${__dirname}/public`));
 
 app.use((req, res, next) => {
   console.log('Hello from the middleware 🙋‍♂️🙋‍♀️');
