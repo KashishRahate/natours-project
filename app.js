@@ -14,7 +14,6 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json()); //express.json() is a middleware(function that can modify the incoming request data, it stands b/w request and response)
 app.use(express.static(`${__dirname}/public`));
-
 app.use((req, res, next) => {
   console.log('Hello from the middleware 🙋‍♂️🙋‍♀️');
   next();

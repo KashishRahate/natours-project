@@ -1,7 +1,26 @@
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
 const app = require('./app');
 
+const DB = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD,
+);
+
+mongoose
+  // .connect(process.env.DATABASE_LOCAL, {
+  .connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true, //Inform the MongoDB driver to use the new engine, and this should eliminate the deprecation warning.
+  })
+  .then(() => console.log('DB connection successful!'));
+// .then((con) => {
+//   console.log(con.connections);
+//   console.log('DB connection successful!');
+// });
 // console.log(app.get('env')); //print environment variable
 // console.log(process.env);
 

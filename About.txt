@@ -1,3 +1,6 @@
 MiddleWare: It can manipulate the req or res object or really execute any other code that we like, its all about receiving request and sending response. even route definition
 
 Request-Response Cycle
+
+Install ESlint and prettier as npm packages
+npm i eslint prettier eslint-config-prettier eslint-plugin-prettier eslint-config-airbnb eslint-plugin-node eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react --save-dev
