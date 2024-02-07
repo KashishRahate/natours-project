@@ -1,5 +1,4 @@
 // 127.0.0.1:3000/api/v1/tours
-
 const express = require('express');
 const morgan = require('morgan');
 const tourRouter = require('./routes/tourRoutes');
@@ -14,6 +13,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json()); //express.json() is a middleware(function that can modify the incoming request data, it stands b/w request and response)
 app.use(express.static(`${__dirname}/public`));
+
 app.use((req, res, next) => {
   console.log('Hello from the middleware 🙋‍♂️🙋‍♀️');
   next();
