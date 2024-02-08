@@ -3,9 +3,9 @@ const tourController = require('./../controllers/tourController');
 // const {getAlltours, } = require('./../controllers/tourController');
 const router = express.Router();
 
-router.param('id', tourController.checkID);
+// router.param('id', tourController.checkID);
 
-router.param('name', tourController.checkBody);
+// router.param('name', tourController.checkBody);
 
 router
   .route('/')
