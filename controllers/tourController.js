@@ -36,6 +36,16 @@ exports.getAllTours = async (req, res) => {
     // 127.0.0.1:3000/api/v1/tours?sort=price for ascending
     // 127.0.0.1:3000/api/v1/tours?sort=-price for descending
 
+    // 3) Field Limiting
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ');
+      query = query.select(fields);
+    } else {
+      query = query.select('-__v');
+    }
+    // 127.0.0.1:3000/api/v1/tours?fields=name,duration,difficulty,price --inclusion
+    // 127.0.0.1:3000/api/v1/tours?fields=-name,-duration,-difficulty,-price --exclusion
+
     // EXECUTE QUERY
     const tours = await query;
 
