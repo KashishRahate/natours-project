@@ -5,8 +5,8 @@ const AppError = require('../utils/appError');
 
 exports.aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
-  req.query.sort = '-ratingsAverage, price';
-  req.query.fields = 'name, price, ratingsAverage, summary, difficulty';
+  req.query.sort = '-ratingsAverage,price';
+  req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
   next();
 };
 
@@ -22,7 +22,7 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
   // SEND RESPONSE
   res.status(200).json({
     status: 'success',
-    result: tours.length,
+    results: tours.length,
     data: {
       tours,
     },
@@ -31,10 +31,12 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
 
 exports.getTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.id);
-  // Tour.findOne({ _id: req.params.id})
+  // Tour.findOne({ _id: req.params.id })
+
   if (!tour) {
     return next(new AppError('No tour found with that ID', 404));
   }
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -45,6 +47,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
 
 exports.createTour = catchAsync(async (req, res, next) => {
   const newTour = await Tour.create(req.body);
+
   res.status(201).json({
     status: 'success',
     data: {
@@ -81,9 +84,7 @@ exports.deleteTour = catchAsync(async (req, res, next) => {
   res.status(204).json({
     //204: No content
     status: 'success',
-    data: {
-      tour: null,
-    },
+    data: null,
   });
 });
 
