@@ -57,6 +57,13 @@ userSchema.pre('save', async function (next) {
   next();
 }); //this middleware runs in Between getting the data and saving it to the database
 
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
 // Instance method
 userSchema.methods.correctPassword = async function (
   candidatePassword,
