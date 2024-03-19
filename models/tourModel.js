@@ -126,10 +126,16 @@ const tourSchema = new mongoose.Schema(
   },
 );
 
+// tourSchema.index({ price: 1 }); //increases performance of totalDocsExamined
+
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+tourSchema.index({ slug: 1 });
+
 tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
 });
 
+// Virtual Populate
 tourSchema.virtual('reviews', {
   ref: 'Review',
   foreignField: 'tour',

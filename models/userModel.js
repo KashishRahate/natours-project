@@ -51,23 +51,23 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.pre('save', async function (next) {
-  // only run this function only if the password was actually modified
-  if (!this.isModified('password')) return next(); //this refers to the current user
-  // Bcrypt package(bcryptjs) helps to encrypt the password(adding the string)
-  // Hash the password with the cost of 12
-  this.password = await bcrypt.hash(this.password, 12); // how cpu intensive this operation wil be and better the password will be encrypted
-  // Delete the passwordConfirm field
-  this.passwordConfirm = undefined;
-  next();
-}); //this middleware runs in Between getting the data and saving it to the database
+// userSchema.pre('save', async function (next) {
+//   // only run this function only if the password was actually modified
+//   if (!this.isModified('password')) return next(); //this refers to the current user
+//   // Bcrypt package(bcryptjs) helps to encrypt the password(adding the string)
+//   // Hash the password with the cost of 12
+//   this.password = await bcrypt.hash(this.password, 12); // how cpu intensive this operation wil be and better the password will be encrypted
+//   // Delete the passwordConfirm field
+//   this.passwordConfirm = undefined;
+//   next();
+// }); //this middleware runs in Between getting the data and saving it to the database
 
-userSchema.pre('save', function (next) {
-  if (!this.isModified('password') || this.isNew) return next();
+// userSchema.pre('save', function (next) {
+//   if (!this.isModified('password') || this.isNew) return next();
 
-  this.passwordChangedAt = Date.now() - 1000;
-  next();
-});
+//   this.passwordChangedAt = Date.now() - 1000;
+//   next();
+// });
 
 userSchema.pre(/^find/, function (next) {
   // this points to the current query
