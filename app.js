@@ -4,6 +4,7 @@ const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const AppError = require('./utils/appError');
@@ -43,6 +44,7 @@ app.use('/api', limiter);
 
 //  Body Parserm reading data from body into req.body
 app.use(express.json({ limit: '10kb' })); //express.json() is a middleware(function that can modify the incoming request data, it stands b/w request and response)
+app.use(cookieParser());
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -76,6 +78,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   // console.log(req.headers);
+  console.log(req.cookies);
   next();
 });
 
