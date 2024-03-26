@@ -44,6 +44,7 @@ app.use('/api', limiter);
 
 //  Body Parserm reading data from body into req.body
 app.use(express.json({ limit: '10kb' })); //express.json() is a middleware(function that can modify the incoming request data, it stands b/w request and response)
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(cookieParser());
 
 // Data sanitization against NoSQL query injection
