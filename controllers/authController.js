@@ -153,7 +153,7 @@ exports.isLoggedIn = async (req, res, next) => {
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-    console.log(...roles);
+    // console.log(...roles);
     // roles ['admin', 'leas-guide']. role = 'user'
     if (!roles.includes(req.user.role)) {
       return next(
@@ -172,7 +172,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
   // 2) Generate the random reset token
   const resetToken = user.createPasswordResetToken();
-  console.log(resetToken);
+  // console.log(resetToken);
   await user.save({ validateBeforeSave: false });
   // 3) Send it to user's email
   const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
