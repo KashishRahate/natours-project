@@ -29,8 +29,20 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
-exports.uploadUserPhoto = upload.single('photo');
-
+// exports.uploadUserPhoto = upload.single('photo');
+exports.uploadUserPhoto = (req, res, next) => {
+  upload.single('photo')(req, res, (err) => {
+    if (err) {
+      // If multer encountered an error
+      return next(err);
+    }
+    // Log or inspect the data in the request
+    console.log('Uploaded file:', req.file);
+    console.log('Body parameters:', req.body);
+    // Continue to the next middleware
+    next();
+  });
+};
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
