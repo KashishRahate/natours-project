@@ -16,7 +16,9 @@ module.exports = class Email {
       // Send Grid
       return 1;
     }
-
+    console.log(
+      `Connecting to SMTP server: ${process.env.EMAIL_HOST}:${process.env.EMAIL_PORT}`,
+    );
     return nodemailer.createTransport({
       // service: 'Gmail',
       host: process.env.EMAIL_HOST,
@@ -25,6 +27,7 @@ module.exports = class Email {
         user: process.env.EMAIL_USERNAME,
         pass: process.env.EMAIL_PASSWORD,
       },
+      tls: { rejectUnauthorized: false },
       // Activate in gmail "less secure app" option
     });
   }
@@ -37,7 +40,7 @@ module.exports = class Email {
       url: this.url,
       subject,
     });
-    console.log(html);
+    // console.log(html);
     // 2) define email options
     const mailOptions = {
       from: this.from,
