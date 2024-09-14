@@ -22,6 +22,8 @@ const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
 
+app.enable('trust proxy');
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -101,10 +103,14 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // Stripe webhook, BEFORE body-parser, because stripe needs the body as stream
+
 app.post(
   '/webhook-checkout',
   bodyParser.raw({ type: 'application/json' }),
-  bookingController.webhookCheckout,
+  (req, res, next) => {
+    console.log('Raw body received:', req.body);
+    res.status(200).send('OK');
+  },
 );
 
 //  Body Parserm reading data from body into req.body
@@ -132,7 +138,7 @@ app.use(
   }),
 );
 
-app.use(compression());
+// app.use(compression());
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));

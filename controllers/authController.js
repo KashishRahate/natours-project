@@ -52,7 +52,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     role: req.body.role,
   });
   const url = `${req.protocol}://${req.get('host')}/me`;
-  console.log(url);
+  // console.log(url);
   await new Email(newUser, url).sendWelcome();
   createSendToken(newUser, 201, req, res);
 });
@@ -92,10 +92,10 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith('Bearer')
   ) {
     token = req.headers.authorization.split(' ')[1];
-    console.log('Token from header:', token);
+    // console.log('Token from header:', token);
   } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
-    console.log('Token from cookie:', token);
+    // console.log('Token from cookie:', token);
   }
   if (!token) {
     console.log('No token found');
@@ -155,6 +155,7 @@ exports.isLoggedIn = async (req, res, next) => {
       }
 
       // There is a logged in User
+      req.user = currentUser;
       res.locals.user = currentUser;
       return next();
     } catch (err) {

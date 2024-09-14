@@ -25,6 +25,11 @@ exports.getOverview = catchAsync(async (req, res, next) => {
 });
 
 exports.getTour = catchAsync(async (req, res, next) => {
+  // Check if the slug is "me" and redirect to the account page
+  if (req.params.slug === 'me') {
+    return res.redirect('/me');
+  }
+
   // 1) Get the data, for the requested tour (including reviews and guides)
   const tour = await Tour.findOne({ slug: req.params.slug }).populate({
     path: 'reviews',
@@ -60,6 +65,13 @@ exports.getLoginForm = (req, res) => {
     .render('login', {
       title: 'Log into your account',
     });
+};
+
+exports.getSignupForm = (req, res) => {
+  if (req.isLogin) return res.redirect('/');
+  res.status(200).render('signup', {
+    title: 'Create your account!',
+  });
 };
 
 exports.getAccount = (req, res) => {
