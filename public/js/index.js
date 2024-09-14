@@ -4,17 +4,21 @@ import { displayMap } from './mapbox';
 import { login, logout } from './login';
 import { signup } from './signup';
 import { updateSettings } from './updateSettings';
+import { SendTokenEmail, resetPassword } from './resetPassword';
 import { bookTour } from './stripe';
 import { showAlert } from './alerts';
 
 // DOM elements
 const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
+const ResetButton = document.querySelector('#Reset');
+const resetForm = document.querySelector('.form--reset');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const signupForm = document.querySelector('.form--signup');
+const bookBtn = document.getElementById('book-tour');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
-const bookBtn = document.getElementById('book-tour');
+const UpdatePassForm = document.querySelector('.form--updatePass');
 
 console.log(userDataForm);
 // Delegation
@@ -41,6 +45,25 @@ if (signupForm) {
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('passwordConfirm').value;
     signup(name, email, password, passwordConfirm);
+  });
+}
+
+if (resetForm) {
+  resetForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    SendTokenEmail(email);
+    ResetButton.textContent = 'Processing...';
+  });
+}
+
+if (UpdatePassForm) {
+  UpdatePassForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('passwordConfirm').value;
+    resetPassword(password, passwordConfirm);
+    ResetButton.textContent = 'Processing...';
   });
 }
 
